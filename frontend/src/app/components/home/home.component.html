@@ -1,0 +1,246 @@
+<!-- PAGE WRAPPER -->
+<div class="relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-purple-100 min-h-screen px-4 md:px-8 py-10">
+
+  <!-- Background Blobs -->
+  <div class="absolute top-0 left-0 w-72 h-72 bg-pink-300/30 rounded-full blur-3xl"></div>
+  <div class="absolute bottom-0 right-0 w-96 h-96 bg-blue-300/30 rounded-full blur-3xl"></div>
+  <div class="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-300/20 rounded-full blur-3xl"></div>
+
+  <!-- ========================= -->
+  <!-- HERO CAROUSEL -->
+  <!-- ========================= -->
+
+  <section class="relative z-10 mb-20">
+
+    <div class="flex items-center justify-between mb-8">
+
+      <div>
+        <h2 class="text-4xl md:text-5xl font-black text-gray-800 leading-tight">
+          Trending
+          <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Products
+          </span>
+        </h2>
+
+        <p class="text-gray-500 mt-2 text-lg">
+          Discover premium collections with modern style
+        </p>
+      </div>
+
+    </div>
+
+    <div class="relative z-10 mb-16">
+
+  <div class="backdrop-blur-xl bg-white/50 border border-white/40
+              rounded-[1.5rem] shadow-xl p-4 md:p-6">
+
+    <p-carousel
+      [value]="corouselData"
+      [numVisible]="3"
+      [numScroll]="1"
+    
+      [responsiveOptions]="responsiveOptions"
+      autoplayInterval="3000"
+      class="custom-carousel"
+    >
+
+      <ng-template let-product #item>
+
+        <a [routerLink]="['/product', product._id]" class="block group mx-2">
+
+          <!-- CARD -->
+          <div
+            class="relative overflow-hidden rounded-2xl
+                   bg-white/80 backdrop-blur-md
+                   border border-gray-100
+                   shadow-md hover:shadow-2xl
+                   transition-all duration-500
+                   hover:-translate-y-2"
+          >
+
+            <!-- IMAGE (smaller height now) -->
+            <div class="overflow-hidden">
+              <img
+                src="https://primefaces.org/cdn/primeng/images/demo/product/{{ product.image }}"
+                [alt]="product.name"
+                class="w-full h-44 object-cover
+                       transition-transform duration-500
+                       group-hover:scale-110"
+              />
+            </div>
+
+            <!-- CONTENT -->
+            <div class="p-4">
+
+              <h3 class="text-base font-bold text-gray-800 line-clamp-1">
+                {{ product.name }}
+              </h3>
+
+              <div class="flex items-center justify-between mt-3">
+
+                <span class="text-lg font-extrabold text-blue-600">
+                  ₹{{ product.Price }}
+                </span>
+
+                <!-- BUTTONS (override PrimeNG completely) -->
+                <div class="flex gap-2">
+
+                  <button
+                    class="w-9 h-9 rounded-full
+                           bg-pink-500 text-white
+                           hover:bg-pink-600
+                           shadow-md hover:scale-110
+                           transition-all duration-300
+                           !border-none !outline-none"
+                  >
+                    <i class="pi pi-heart text-sm"></i>
+                  </button>
+
+                  <button
+                    class="w-9 h-9 rounded-full
+                           bg-blue-600 text-white
+                           hover:bg-blue-700
+                           shadow-md hover:scale-110
+                           transition-all duration-300
+                           !border-none !outline-none"
+                  >
+                    <i class="pi pi-shopping-cart text-sm"></i>
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </a>
+
+      </ng-template>
+
+    </p-carousel>
+
+  </div>
+
+</div>
+
+  </section>
+
+
+
+  <!-- ========================= -->
+  <!-- FEATURED PRODUCTS -->
+  <!-- ========================= -->
+
+  <section class="relative z-10 mb-20">
+
+    <div class="mb-8">
+
+      <h2 class="text-4xl font-black text-gray-800">
+        Featured
+        <span class="bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent">
+          Products
+        </span>
+      </h2>
+
+      <p class="text-gray-500 mt-2">
+        Handpicked premium products just for you
+      </p>
+
+    </div>
+
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+    >
+
+      @for (product of featuredProducts; track $index) {
+
+        <div
+          class="group relative rounded-[2rem]
+                 bg-white/70 backdrop-blur-lg
+                 border border-white/40
+                 shadow-lg hover:shadow-2xl
+                 transition-all duration-500
+                 hover:-translate-y-3 overflow-hidden"
+        >
+
+          <!-- Glow -->
+          <div
+            class="absolute inset-0 bg-gradient-to-br
+                   from-pink-500/10 to-orange-500/10
+                   opacity-0 group-hover:opacity-100
+                   transition duration-500"
+          ></div>
+
+          <div class="relative z-10 p-2">
+            <app-product-card [product]="product"></app-product-card>
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ========================= -->
+  <!-- NEW ARRIVALS -->
+  <!-- ========================= -->
+
+  <section class="relative z-10">
+
+    <div class="mb-8">
+
+      <h2 class="text-4xl font-black text-gray-800">
+        New
+        <span class="bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">
+          Arrivals
+        </span>
+      </h2>
+
+      <p class="text-gray-500 mt-2">
+        Fresh products with modern design trends
+      </p>
+
+    </div>
+
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+    >
+
+      @for (product of newProducts; track $index) {
+
+        <div
+          class="group relative rounded-[2rem]
+                 bg-white/70 backdrop-blur-lg
+                 border border-white/40
+                 shadow-lg hover:shadow-2xl
+                 transition-all duration-500
+                 hover:-translate-y-3 overflow-hidden"
+        >
+
+          <!-- Glow -->
+          <div
+            class="absolute inset-0 bg-gradient-to-br
+                   from-blue-500/10 to-cyan-500/10
+                   opacity-0 group-hover:opacity-100
+                   transition duration-500"
+          ></div>
+
+          <div class="relative z-10 p-2">
+            <app-product-card [product]="product"></app-product-card>
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  </section>
+
+</div>

@@ -1,0 +1,230 @@
+<div class="max-w-7xl mx-auto px-4 py-10 bg-gray-50 space-y-16">
+
+  <!-- ================= PRODUCT SECTION ================= -->
+  <section class="grid md:grid-cols-2 gap-10 bg-white p-6 rounded-2xl shadow-sm">
+
+    <!-- IMAGE GALLERY -->
+    <div class="space-y-4">
+
+      <!-- MAIN IMAGE -->
+  <div class="border rounded-2xl overflow-hidden bg-gray-50">
+ <img 
+  [src]="mainImage + '&width=1600'" 
+  class="w-full h-auto object-contain"
+/>
+</div>
+
+      <!-- THUMBNAILS -->
+      <div class="flex gap-3 overflow-x-auto pb-2">
+        @for(imageUrl of product?.images; track $index){
+        <img [routerLink]="['/product', product._id]" [src]="imageUrl" (click)="changeImage(imageUrl)"
+          class="w-16 h-22 object-cover rounded-lg cursor-pointer border hover:border-black hover:scale-105 transition shrink-0" />
+        }
+      </div>
+
+    </div>
+
+    <!-- DETAILS -->
+    <div class="space-y-5">
+
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900">
+        {{ product?.name }}
+      </h1>
+
+      <!-- PRICE -->
+      <div class="flex items-center gap-4">
+        <span class="text-3xl font-bold text-black">
+          ₹{{ sellingPrice(product) }}
+        </span>
+
+        <span class="text-gray-400 line-through text-lg">
+          ₹{{ product?.Price }}
+        </span>
+
+        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
+          {{ product?.discount }}% OFF
+        </span>
+      </div>
+
+      <!-- DESCRIPTION -->
+      <p class="text-gray-600 leading-relaxed">
+        {{ product?.description }}
+      </p>
+
+    <div class="flex flex-wrap gap-4 mt-5">
+
+  <!-- Wishlist Button -->
+  <button
+    (click)="addToWishList(product)"
+    mat-fab
+    class="!h-12 !px-5 !rounded-xl flex items-center gap-2 text-white font-semibold shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+    [ngClass]="
+      isInWishList(product)
+        ? '!bg-gray-900 hover:!bg-black'
+        : '!bg-gradient-to-r !from-pink-500 !to-rose-500 hover:shadow-pink-300'
+    "
+  >
+    @if (isInWishList(product)) {
+      <mat-icon>favorite</mat-icon>
+      Remove from Wishlist
+    } @else {
+      <mat-icon>favorite_border</mat-icon>
+      Add to Wishlist
+    }
+  </button>
+
+  <!-- Cart Button -->
+  
+  <button
+    (click)="addToCart(product)"
+    mat-fab
+    class="!h-12 !px-5 !rounded-xl flex items-center gap-2 text-white font-semibold shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+    [ngClass]="
+      isProductInCart(product?._id)
+        ? '!bg-gray-900 hover:!bg-black'
+        : '!bg-gradient-to-r !from-blue-600 !to-sky-500 hover:shadow-blue-300'
+    "
+  >
+    @if (isProductInCart(product?._id)) {
+      <mat-icon>remove_shopping_cart</mat-icon>
+      Remove from Cart
+    } @else {
+      <mat-icon>add_shopping_cart</mat-icon>
+      Add to Cart
+    }
+  </button>
+
+</div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= SIMILAR PRODUCTS ================= -->
+  <!-- ================= SIMILAR PRODUCTS ================= -->
+  <section class="space-y-6">
+
+    <h2 class="text-2xl font-semibold text-gray-900">
+      Similar Products
+    </h2>
+
+    <!-- SCROLL CONTAINER -->
+    <div class="overflow-x-auto pb-4">
+
+      <!-- INNER FLEX ROW -->
+      <div class="flex gap-4 w-max">
+
+        @for(similarProduct of similarProducts; track $index){
+
+        <!-- CARD -->
+        <div
+          class="w-[300px] flex-shrink-0 bg-white border rounded-xl shadow-sm hover:shadow-md transition overflow-hidden">
+
+          <!-- IMAGE -->
+          <img [src]="similarProduct?.images?.[0]"
+            class="w-full h-36 object-cover hover:scale-105 transition duration-300" />
+
+          <!-- DETAILS -->
+          <div class="p-3 space-y-1">
+
+            <h3 class="text-sm font-medium text-gray-800 line-clamp-2">
+              {{ similarProduct.name }}
+            </h3>
+
+            <div class="flex items-center gap-2 mb-4">
+              <span class="text-lg font-bold text-black">
+                ₹{{sellingPrice(similarProduct)}}
+              </span>
+
+              <span class="text-sm text-gray-400 line-through">
+                ₹{{similarProduct?.Price}}
+              </span>
+
+              <span class="text-green-600 text-sm font-medium">
+                {{similarProduct?.discount}}% OFF
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= REVIEWS ================= -->
+  <!-- <section class="space-y-6">
+
+    <h2 class="text-2xl font-semibold text-gray-900">
+      Customer Reviews
+    </h2>
+
+    <div class="flex gap-6 overflow-x-auto pb-4 scroll-smooth snap-x snap-mandatory">
+
+      <div class="min-w-[300px] snap-start bg-white border rounded-xl p-5 shadow-sm">
+        <h4 class="font-semibold">Rahul Sharma</h4>
+        <p class="text-yellow-500">★★★★★</p>
+        <p class="text-gray-600 mt-2">
+          Amazing product! Very comfortable.
+        </p>
+      </div>
+
+      <div class="min-w-[300px] snap-start bg-white border rounded-xl p-5 shadow-sm">
+        <h4 class="font-semibold">Anjali Verma</h4>
+        <p class="text-yellow-500">★★★★☆</p>
+        <p class="text-gray-600 mt-2">
+          Good quality but slightly expensive.
+        </p>
+      </div>
+
+      <div class="min-w-[300px] snap-start bg-white border rounded-xl p-5 shadow-sm">
+        <h4 class="font-semibold">Amit Patel</h4>
+        <p class="text-yellow-500">★★★★★</p>
+        <p class="text-gray-600 mt-2">
+          Worth the price!
+        </p>
+      </div>
+
+    </div>
+
+  </section> -->
+
+  <!-- ================= WRITE REVIEW ================= -->
+  <section class="bg-white p-6 rounded-2xl shadow-sm border-t pt-10">
+    <app-product-reviews ></app-product-reviews>
+
+    <!-- <h2 class="text-2xl font-semibold mb-6">
+      Write a Review
+    </h2>
+
+    <form class="space-y-4 max-w-xl">
+
+      <input type="text" placeholder="Your Name"
+        class="w-full border rounded-xl p-3 focus:ring-2 focus:ring-black outline-none" />
+
+      <select class="w-full border rounded-xl p-3 focus:ring-2 focus:ring-black outline-none">
+        <option>Select Rating</option>
+        <option>★★★★★ - Excellent</option>
+        <option>★★★★☆ - Good</option>
+        <option>★★★☆☆ - Average</option>
+        <option>★★☆☆☆ - Poor</option>
+        <option>★☆☆☆☆ - Bad</option>
+      </select>
+
+      <textarea rows="4" placeholder="Write your review..."
+        class="w-full border rounded-xl p-3 focus:ring-2 focus:ring-black outline-none"></textarea>
+
+      <button type="button" class="bg-black text-white px-8 py-3 rounded-xl hover:bg-gray-800 transition">
+        Submit Review
+      </button>
+
+    </form> -->
+
+  </section>
+
+</div>

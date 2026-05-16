@@ -1,0 +1,75 @@
+<header class="header">
+
+  <div class="container">
+    <!-- Top Row -->
+    <div class="header__top">
+      <!-- Logo -->
+      <div class="header__logo" routerLink="/">
+        ShopLogo
+      </div>
+
+      <!-- Search (only when logged in) -->
+      @if(authSer.isLoggedIn){
+      <div class="header__search">
+        <input #search type="text" placeholder="Search for products..." />
+        <button (click)="onSearch(search.value)">🔍</button>
+      </div>
+      }
+
+      <!-- Right Side -->
+      <div class="header__profile">
+        @if(authSer.isLoggedIn){
+        @if(authSer.isAdmin){
+        <a routerLink="/profile" class="username" class="ml-5">{{authSer.userName}}</a>
+        <a routerLink="/admin" class="username">
+          Dashboard
+        </a>
+       
+        <button (click)="logout()" class="ml-5">Logout</button>
+        } @else {
+        <span class="username">
+          <a routerLink="/wishlist" class="ml-5">
+          @if (wishlistSer.wishlistProducts.length>0){<mat-icon>favorite</mat-icon>}
+          @else { <mat-icon>favorite_border</mat-icon>}
+        </a>
+        <a routerLink="/cart" class="ml-5">
+          @if (wishlistSer.wishlistProducts.length>0){<mat-icon>shopping_cart</mat-icon>}
+          @else { <mat-icon>remove_shopping_cart</mat-icon>}
+        </a>
+
+        <a routerLink="/orders" class="ml-5">
+          Orders
+        </a>
+   
+          <a routerLink="/profile" class="ml-5">{{authSer.userName}}</a>
+        </span>
+        <button (click)="logout()" class="ml-5">Logout</button>
+        }
+        } @else {
+        <button routerLink="/login" class="mr-5">Login</button>
+        <button routerLink="/register">Register</button>
+        }
+      </div>
+    </div>
+
+    <!-- Bottom Nav (only when logged in) -->
+    @if(authSer.isLoggedIn){
+  
+    <div class="header__nav">
+      <ul class="menu">
+        @for(category of categoryList; track $index){
+        <li (click)="categoryClick(category._id)" 
+       
+        [class.active]="currentCategoryId === category._id">
+          {{category.name}}
+        </li>
+        } @empty {
+        <li class="text-black">No Category Found</li>
+        }
+        
+      </ul>
+    </div>
+    }
+  </div>
+
+</header>

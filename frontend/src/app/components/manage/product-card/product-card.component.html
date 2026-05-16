@@ -1,0 +1,66 @@
+<div
+  class="w-full bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 flex flex-col h-full">
+
+  <a  class="flex flex-col h-full w-full">
+
+    <!-- Image -->
+    <div class="w-full h-80 bg-gray-100 flex items-center justify-center overflow-hidden">
+      <img [routerLink]="['/product', product._id]" [src]="product.images?.[0] || 'assets/no-image.png'" class="w-full h-full object-cover" />
+    </div>
+
+    <!-- Content -->
+    <div class="p-4 flex flex-col flex-grow">
+
+      <h5 class="text-lg font-semibold text-gray-800 mb-1 line-clamp-1">
+        {{product.name}}
+      </h5>
+
+      <p class="text-sm text-gray-500 mb-3 line-clamp-2">
+        {{product.shortDescription}}
+      </p>
+
+      <!-- Price -->
+      <div class="flex items-center gap-2 mb-4">
+        <span class="text-lg font-bold text-black">
+          ₹{{sellingPrice}}
+        </span>
+
+        <span class="text-sm text-gray-400 line-through">
+          ₹{{product?.Price}}
+        </span>
+
+        <span class="text-green-600 text-sm font-medium">
+          {{product?.discount}}% OFF
+        </span>
+      </div>
+
+      <!-- Buttons -->
+      <div class="mt-auto flex gap-2">
+        <!-- <button matFab aria-label="Example icon button with a delete icon">
+        <mat-icon>delete</mat-icon>
+      </button> -->
+
+        <button (click)="addToWishList(product)" matFab aria-label="wishlist">
+          @if (isInWishList(product)) {
+          <mat-icon>favorite</mat-icon>
+          } @else {
+          <mat-icon>favorite_border</mat-icon>
+          }
+        </button>
+
+        <button (click)="addToCart(product)" matFab aria-label="Example icon button with a heart icon">
+          @if(isProductInCart(product._id)){
+          <mat-icon>remove_shopping_cart</mat-icon>
+          }@else{
+          <mat-icon>add_shopping_cart</mat-icon>
+          }
+        </button>
+       
+
+      </div>
+
+    </div>
+
+  </a>
+
+</div>
