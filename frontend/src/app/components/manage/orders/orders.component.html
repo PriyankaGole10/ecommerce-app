@@ -1,88 +1,124 @@
-@for(order of orders ; track $index){
-<h6>Order Id: {{order._id}}</h6>
-<span>Date:</span><span>{{order.date |date:'mediumDate'}}</span>
-<p>Order Status:{{order.status}}</p>
-<div>
-    <h6> Address</h6>
-    <p>{{order.address.address1}}</p>
-    <p>{{order.address.address2}}</p>
-    <p>{{order.address.city}}</p>
-    <p>{{order.address.pincode }}</p>
-</div>
-<div>
-    <mat-button-toggle-group name="fontStyle" aria-label="font Style" (change)="statusChanged($event,order)">
-        <mat-button-toggle value="Dispatched">Dispatched</mat-button-toggle>
-        <mat-button-toggle value="Shipped">Shipped</mat-button-toggle>
-        <mat-button-toggle value="Delivered">Delivered</mat-button-toggle>
-    </mat-button-toggle-group>
-</div>
-@for(item of order.items ; track $index){
-<div class="flex gap-5 bg-white border rounded-xl p-4 hover:shadow-md transition">
+<div class="orders-page">
 
-    <!-- IMAGE -->
+  @for(order of orders; track $index){
 
-    <div class="w-28 h-28 flex-shrink-0">
-        <img [src]="item.product.images[0]" class="w-full h-full object-cover rounded-lg bg-gray-100" />
-    </div>
+  <div class="order-card">
 
-    <!-- INFO -->
-    <div class="flex-1">
+    <!-- HEADER -->
+    <div class="order-header">
 
-        <h3 class="text-lg font-semibold text-gray-800 line-clamp-1">
-            {{item.product.name}}
-        </h3>
+      <div>
+        <h2 class="order-id">
+          Order #{{order._id}}
+        </h2>
 
-        <p class="text-sm text-gray-500 mt-1 line-clamp-2">
-            {{item.product.description}}
+        <p class="order-date">
+          {{order.date | date:'medium'}}
         </p>
+      </div>
 
-        <!-- PRICE ROW -->
-        <div class="mt-3 flex flex-wrap items-center gap-3">
-
-            <span class="text-2xl font-bold text-gray-900">
-                ₹{{ sellingPrice(item.product) }}
-            </span>
-
-            <span class="text-lg text-gray-400 line-through">
-                ₹{{ item.product.Price }}
-            </span>
-
-            <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-semibold">
-                {{ item.product.discount }}% OFF
-            </span>
-
-        </div>
-
-        <!-- TOTAL -->
-        <div class="mt-2 text-sm text-gray-600">
-            Total:
-            <span class="font-semibold text-gray-900">
-                ₹{{ sellingPrice(item.product) * item.quantity }}
-            </span>
-        </div>
+      <div>
+        <span class="status-badge">
+          {{order.status}}
+        </span>
+      </div>
 
     </div>
 
-    <!-- ACTIONS -->
-    <div class="flex flex-col items-end justify-between">
+    <!-- ADDRESS -->
+    <div class="address-box">
 
+      <h3>Delivery Address</h3>
 
+      <p>{{order.address.address1}}</p>
+      <p>{{order.address.address2}}</p>
+      <p>{{order.address.city}}</p>
+      <p>{{order.address.pincode}}</p>
 
-        <!-- QUANTITY -->
-        <div class="flex items-center border rounded-lg overflow-hidden mt-6">
+    </div>
 
+    <!-- STATUS -->
+    <div class="status-section">
 
+      <mat-button-toggle-group
+        aria-label="Order Status"
+        (change)="statusChanged($event,order)">
 
-            <span class="px-4 text-sm font-medium">
-                {{item.quantity}}
+        <mat-button-toggle value="Dispatched">
+          Dispatched
+        </mat-button-toggle>
+
+        <mat-button-toggle value="Shipped">
+          Shipped
+        </mat-button-toggle>
+
+        <mat-button-toggle value="Delivered">
+          Delivered
+        </mat-button-toggle>
+
+      </mat-button-toggle-group>
+
+    </div>
+
+    <!-- ITEMS -->
+    <div class="items-section">
+
+      @for(item of order.items ; track $index){
+
+      <div class="product-card">
+
+        <!-- IMAGE -->
+        <div class="product-image">
+          <img [src]="item.product.images[0]" />
+        </div>
+
+        <!-- INFO -->
+        <div class="product-info">
+
+          <h3>{{item.product.name}}</h3>
+
+          <p class="desc">
+            {{item.product.description}}
+          </p>
+
+          <div class="price-row">
+
+            <span class="sell-price">
+              ₹{{ sellingPrice(item.product) }}
             </span>
 
+            <span class="old-price">
+              ₹{{ item.product.Price }}
+            </span>
 
+            <span class="discount">
+              {{ item.product.discount }}% OFF
+            </span>
+
+          </div>
+
+          <div class="bottom-row">
+
+            <span>
+              Qty: {{item.quantity}}
+            </span>
+
+            <span class="total">
+              Total ₹{{ sellingPrice(item.product) * item.quantity }}
+            </span>
+
+          </div>
 
         </div>
 
+      </div>
+
+      }
+
     </div>
+
+  </div>
+
+  }
 
 </div>
-}
-}
