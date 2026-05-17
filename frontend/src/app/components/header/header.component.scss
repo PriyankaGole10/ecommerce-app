@@ -27,6 +27,14 @@ $border-light: rgba(255, 255, 255, 0.2);
   background: #ffcc00;
 }
 
+.header__logo img {
+  width: 260px;
+  height: 80px;
+  object-fit: contain;
+  display: block;
+}
+
+
 // Mixins
 @mixin flex-between {
   display: flex;
@@ -53,7 +61,7 @@ $border-light: rgba(255, 255, 255, 0.2);
 
   &__top {
     @include flex-between;
-    padding: 15px 0;
+    padding: 4px 0;
     gap: 20px;
     border-bottom: 1px solid $border-light;
   }
